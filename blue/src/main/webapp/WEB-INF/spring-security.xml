@@ -1,0 +1,19 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security 
+	http://www.springframework.org/schema/security/spring-security.xsd">
+	<http auto-config="true" use-expressions="false">
+	<intercept-url pattern="/toLogin" access="ROLE_y"/>
+	<form-login  login-page="/login"  default-target-url="/toLogin"/>
+	</http>	  
+	<authentication-manager>
+	<authentication-provider>
+	<jdbc-user-service data-source-ref="dataSource" 
+	 users-by-username-query="select name,password,enabled from client where name=?" 
+	authorities-by-username-query="select client.name, userrole.authority from client , userrole  where client.clientid = userrole.id and client.name =?" />
+	</authentication-provider>
+	</authentication-manager>
+</beans:beans>
